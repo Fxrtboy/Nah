@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order Data</title>
+  <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js"></script>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Order Details</h1>
+  <table id="contact-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Food</th>
+        <th>Phone</th>
+        <th>Drink</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows will be dynamically added here -->
+    </tbody>
+  </table>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyA2ZO01gISs2RcGhVn-Rc7JEtNFMkbSMXc",
+      authDomain: "saintnicholasepprojn.firebaseapp.com",
+      databaseURL: "https://saintnicholasepprojn-default-rtdb.firebaseio.com",
+      projectId: "saintnicholasepprojn",
+      storageBucket: "saintnicholasepprojn.appspot.com",
+      messagingSenderId: "171886577856",
+      appId: "1:171886577856:web:34539f622fa29defc88525",
+      measurementId: "G-GBB763DT0V"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Reference the database
+    var contactFormDB = firebase.database().ref("contactForm");
+
+    // Real-time listener for changes
+    contactFormDB.on("value", (snapshot) => {
+      const tableBody = document.getElementById("contact-table").querySelector("tbody");
+      tableBody.innerHTML = ""; // Clear table before adding new rows
+
+      let count = 0; // Row counter
+      snapshot.forEach((childSnapshot) => {
+        const data = childSnapshot.val();
+
+        count++;
+        // Create a new row
+        const row = document.createElement("tr");
+
+        // Add cells to the row
+        row.innerHTML = `
+          <td>${count}</td>
+          <td>${data.name}</td>
+          <td>${data.Food}</td>
+          <td>${data.phone}</td>
+          <td>${data.Drink}</td>
+        `;
+
+        // Append the row to the table
+        tableBody.appendChild(row);
+      });
+    });
+  </script>
+</body>
+</html>
