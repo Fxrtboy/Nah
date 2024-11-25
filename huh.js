@@ -1,4 +1,3 @@
-// Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
@@ -18,11 +17,26 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Reference the database path for storing form data
+// Reference to the database path
 const contactFormRef = ref(db, "contactForm");
 
-// Function to save form data
-function saveMessage(name, drink, phone, food) {
+// Handle form submission
+document.getElementById("contactForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // Get form values
+  const name = document.getElementById("name").value;
+  const drink = document.getElementById("Drink").value;
+  const phone = document.getElementById("phone").value;
+  const food = document.getElementById("Food").value;
+
+  // Validate form input
+  if (!name || !drink || !phone || !food) {
+    alert("Please fill out all fields.");
+    return;
+  }
+
+  // Save data to Firebase
   const newContactRef = push(contactFormRef);
   set(newContactRef, {
     name: name,
@@ -31,32 +45,11 @@ function saveMessage(name, drink, phone, food) {
     food: food,
   })
     .then(() => {
-      alert("Form submitted successfully!");
+      alert("Order submitted successfully!");
+      document.getElementById("contactForm").reset();
     })
     .catch((error) => {
-      console.error("Error saving data: ", error);
+      console.error("Error submitting order:", error);
+      alert("Error submitting order. Please try again.");
     });
-}
-
-// Attach event listener to the form
-document.getElementById("contactForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  // Collect form values
-  const name = document.getElementById("name").value;
-  const drink = document.getElementById("Drink").value;
-  const phone = document.getElementById("phone").value;
-  const food = document.getElementById("Food").value;
-
-  // Validate input
-  if (!name || !drink || !phone || !food) {
-    alert("Please fill out all fields.");
-    return;
-  }
-
-  // Save data to Firebase
-  saveMessage(name, drink, phone, food);
-
-  // Reset the form
-  document.getElementById("contactForm").reset();
 });
