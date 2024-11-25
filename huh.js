@@ -7,10 +7,10 @@ const firebaseConfig = {
   authDomain: "saintnicholasepprojn.firebaseapp.com",
   databaseURL: "https://saintnicholasepprojn-default-rtdb.firebaseio.com",
   projectId: "saintnicholasepprojn",
-  storageBucket: "saintnicholasepprojn.appspot.com",
+  storageBucket: "saintnicholasepprojn.firebasestorage.app",
   messagingSenderId: "171886577856",
   appId: "1:171886577856:web:34539f622fa29defc88525",
-  measurementId: "G-GBB763DT0V",
+  measurementId: "G-GBB763DT0V"
 };
 
 // Initialize Firebase
